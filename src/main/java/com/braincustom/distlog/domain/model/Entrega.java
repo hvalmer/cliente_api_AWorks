@@ -11,14 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.groups.ConvertGroup;
-import javax.validation.groups.Default;
-
-import com.braincustom.distlog.domain.exception.ValidationGroups;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -35,27 +27,18 @@ public class Entrega {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Valid //valida o que está dentro de Cliente também
-	@ConvertGroup(from = Default.class, to = ValidationGroups.ClienteId.class)
-	@NotNull
 	@ManyToOne
 	private Cliente cliente;
 	
-	@Valid
-	@NotNull
 	@Embedded //classe (Destinatario) embutida, faz parte da entrega
 	private Destinatario destinatario;
 	
-	@NotNull
 	private BigDecimal taxa;
 	
-	@JsonProperty(access = Access.READ_ONLY)
 	@Enumerated(EnumType.STRING)
 	private StatusEntrega status;
 	
-	@JsonProperty(access = Access.READ_ONLY)
 	private OffsetDateTime dataPedido;
 	
-	@JsonProperty(access = Access.READ_ONLY)
 	private OffsetDateTime dataFinalizacao;
 }
